@@ -40,14 +40,19 @@ LIMIT 1
 - Query to extract maximum total_earnings and count the records 
 
 
-WITH earnings(total_earnings) AS(
-    SELECT salary * months AS total_earnings
+> WITH earnings(total_earnings) AS(
+>> SELECT salary * months AS total_earnings\
     FROM Employee
 )
-SELECT total_earnings, COUNT(*)
-FROM earnings
-WHERE total_earnings IN (SELECT MAX(total_earnings) FROM earnings)
-GROUP BY total_earnings
+
+> SELECT total_earnings, COUNT(*)\
+FROM earnings\
+WHERE total_earnings IN (
+>>SELECT MAX(total_earnings)\
+FROM earnings\
+)
+
+> GROUP BY total_earnings
 
 - Note: This solution only works with Maximum earnings or Minimum earnings
 
