@@ -9,7 +9,8 @@ Julia asked her students to create some coding challenges. Write a query to prin
 ## Difficulty: Medium
 
 ## Knowledge Review: 
-### The HAVING clause: is added to SQL because the WHERE keyword cannot be used with aggregate functions. 
+### HAVING clause: 
+The HAVING clause is added to SQL because the WHERE keyword cannot be used with aggregate functions. 
 ### Subquery
 - A subquery is a SQL query nested inside a larger query. A subquery may occur in :
     - A SELECT clause
