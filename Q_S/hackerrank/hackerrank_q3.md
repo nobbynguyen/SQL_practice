@@ -43,8 +43,9 @@ WHERE
 >> challenges_created = (SELECT Max(challenges_created) FROM challenges_count) OR\
 >>challenges_created IN (
 >>> SELECT challenges_created
-            FROM challenges_count\
-            GROUP BY challenges_created\
-            HAVING COUNT(*)=1\
-            )\
+FROM challenges_count\
+GROUP BY challenges_created\
+HAVING COUNT(*)=1\
+)
+
 >ORDER BY  cc.challenges_created DESC, h.hacker_id
