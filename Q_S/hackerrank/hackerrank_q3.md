@@ -34,14 +34,15 @@ Julia asked her students to create some coding challenges. Write a query to prin
 >>   SELECT hacker_id, COUNT(*)\
         FROM challenges
         GROUP BY hacker_id
-        )\
+        )
+
 > SELECT h.hacker_id, h.name, cc.challenges_created
 FROM hackers AS h\
 LEFT JOIN challenges_count AS cc ON h.hacker_id=cc.hacker_id\
-WHERE\ 
+WHERE
 >> challenges_created = (SELECT Max(challenges_created) FROM challenges_count) OR\
->>challenges_created IN (\
->>> SELECT challenges_created\ 
+>>challenges_created IN (
+>>> SELECT challenges_created
             FROM challenges_count\
             GROUP BY challenges_created\
             HAVING COUNT(*)=1\
