@@ -18,7 +18,7 @@ GROUP BY column_name(s)
 HAVING condition
 ORDER BY column_name(s); 
 ### CTE - Common Table Expression
-
+CTEs act as virtual tables (with records and columns) that are created during query execution, used by the query, and deleted after the query executes.
 
 
 ## Solution: CTE and Subquery (MS SQL Server)
@@ -27,13 +27,14 @@ ORDER BY column_name(s);
 - Step 3: Add the condition of total of maximum scores higher than 0 using HAVING clause
 - Step 4: Sort the results
 
->WITH max_score(hacker_id, challenge_id, max_score) AS (
-    SELECT hacker_id, challenge_id, MAX(score)AS max_score\
+>WITH max_score(hacker_id, challenge_id, max_score) AS ( 
+
+>>SELECT hacker_id, challenge_id, MAX(score)AS max_score\
     FROM submissions\
     GROUP BY hacker_id, challenge_id\
 )\
 
->SELECT mc.hacker_id, h.name, SUM(mc.max_score) AS score
+>SELECT mc.hacker_id, h.name, SUM(mc.max_score) AS score\
 FROM max_score AS mc\
 INNER JOIN hackers AS h ON mc.hacker_id=h.hacker_id\
 GROUP BY mc.hacker_id, h.name\
