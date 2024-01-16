@@ -32,7 +32,7 @@ CTEs act as virtual tables (with records and columns) that are created during qu
 >>SELECT hacker_id, challenge_id, MAX(score)AS max_score\
     FROM submissions\
     GROUP BY hacker_id, challenge_id\
-)\
+)
 
 >SELECT mc.hacker_id, h.name, SUM(mc.max_score) AS score\
 FROM max_score AS mc\
