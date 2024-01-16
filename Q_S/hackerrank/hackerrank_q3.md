@@ -9,13 +9,17 @@ Julia asked her students to create some coding challenges. Write a query to prin
 ## Difficulty: Medium
 
 ## Knowledge Review: 
-- Create a new column in SELECT statement: \
-SELECT salary*months AS earnings 
-- GROUP BY Statement: The GROUP BY statement is often used with aggregate functions (COUNT(), MAX(), MIN(), SUM(), AVG()) to group the result-set by one or more columns.
-- Window Function RANK(): (111,4, 5,6)
-    - Syntax:  RANK() OVER (ORDER BY column (DESC))
-- Window Function DENSERANK(): (111,2,3,4)
-    - Syntax:  DENSERANK() OVER (ORDER BY column (DESC))
+### The HAVING clause: is added to SQL because the WHERE keyword cannot be used with aggregate functions. 
+### Subquery
+- A subquery is a SQL query nested inside a larger query. A subquery may occur in :
+    - A SELECT clause
+    - A FROM clause
+    - A WHERE clause
+- A subquery is usually added within the WHERE Clause of another SQL SELECT statement.
+- A subquert can be used in a SELECT, INSERT, DELETE, or UPDATE statement to perform the following tasks:
+    - Compare an expression to the result of the query.
+    - Determine if an expression is included in the results of the query.
+    - Check whether the query selects any rows.
 
 
 ## Solution: CTE and Subquery 
@@ -30,16 +34,16 @@ SELECT salary*months AS earnings
 >>   SELECT hacker_id, COUNT(*)\
         FROM challenges
         GROUP BY hacker_id
-        )
+        )\
 > SELECT h.hacker_id, h.name, cc.challenges_created
 FROM hackers AS h\
 LEFT JOIN challenges_count AS cc ON h.hacker_id=cc.hacker_id\
-WHERE 
->> challenges_created = (SELECT Max(challenges_created) FROM challenges_count) OR
->>challenges_created IN (
->>> SELECT challenges_created 
+WHERE\ 
+>> challenges_created = (SELECT Max(challenges_created) FROM challenges_count) OR\
+>>challenges_created IN (\
+>>> SELECT challenges_created\ 
             FROM challenges_count\
             GROUP BY challenges_created\
             HAVING COUNT(*)=1\
-            )
+            )\
 >ORDER BY  cc.challenges_created DESC, h.hacker_id
