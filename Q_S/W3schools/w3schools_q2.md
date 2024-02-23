@@ -17,8 +17,8 @@
 >>  SELECT EmployeeID AS id, COUNT(*) AS order_count\
   FROM Orders\
   GROUP BY EmployeeID\
-  )\
+  )
 
-SELECT LastName\
+>SELECT LastName\
 FROM employees\
 WHERE employeeid IN (SELECT id FROM counter WHERE order_count = (SELECT MAX(order_count) FROM counter));
