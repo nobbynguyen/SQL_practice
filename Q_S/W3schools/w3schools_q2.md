@@ -13,11 +13,11 @@
 - Create a CTE to count the orders done by each employee
 - Filter the employee from the employees table with Conditions: having the id that in the list of ids having maximum orders.
 
->WITH counter AS (\
+>WITH counter AS (
 >>  SELECT EmployeeID AS id, COUNT(*) AS order_count\
   FROM Orders\
   GROUP BY EmployeeID\
-  )\
+  )
 >SELECT LastName\
 FROM employees\
 WHERE employeeid IN (SELECT id FROM counter WHERE order_count = (SELECT MAX(order_count) FROM counter));
