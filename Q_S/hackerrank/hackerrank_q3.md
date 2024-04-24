@@ -30,23 +30,23 @@ The HAVING clause is added to SQL because the WHERE keyword cannot be used with 
 	Keep the records if only that records have that number of challenges created (select from a list of unique number of challenges created).
 - Step 3: sort the results
 
+```
+WITH challenges_count(hacker_id, challenges_created) AS(
+    SELECT hacker_id, COUNT(*)
+    FROM challenges
+    GROUP BY hacker_id
+    )
 
-> WITH challenges_count(hacker_id, challenges_created) AS(
->>   SELECT hacker_id, COUNT(*)\
-        FROM challenges
-        GROUP BY hacker_id
-        )
-
-> SELECT h.hacker_id, h.name, cc.challenges_created
-FROM hackers AS h\
-LEFT JOIN challenges_count AS cc ON h.hacker_id=cc.hacker_id\
+SELECT h.hacker_id, h.name, cc.challenges_created
+FROM hackers AS h
+LEFT JOIN challenges_count AS cc ON h.hacker_id=cc.hacker_id
 WHERE
->> challenges_created = (SELECT Max(challenges_created) FROM challenges_count) OR\
->>challenges_created IN (
->>> SELECT challenges_created
-FROM challenges_count\
-GROUP BY challenges_created\
-HAVING COUNT(*)=1\
-)
-
->ORDER BY  cc.challenges_created DESC, h.hacker_id
+    challenges_created = (SELECT Max(challenges_created) FROM challenges_count) OR
+    challenges_created IN (
+        SELECT challenges_created
+        FROM challenges_count
+        GROUP BY challenges_created
+        HAVING COUNT(*)=1
+        )
+ORDER BY  cc.challenges_created DESC, h.hacker_id
+```
