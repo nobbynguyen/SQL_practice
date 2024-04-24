@@ -19,12 +19,12 @@ Each row of this table indicates the ID, name, and salary of an employee. It als
 
 Table: Department
 
-|-------------|---------|
+
 | Column Name | Type    |
 |-------------|---------|
 | id          | int     |
 | name        | varchar |
-|-------------|---------|
+
 id is the primary key column for this table.
 Each row of this table indicates the ID of a department and its name.
 
