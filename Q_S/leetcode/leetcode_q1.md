@@ -5,26 +5,26 @@
 
 Table: Employee
 
-+--------------+---------+
+
 | Column Name  | Type    |
-+--------------+---------+
+|--------------|---------|
 | id           | int     |
 | name         | varchar |
 | salary       | int     |
 | departmentId | int     |
-+--------------+---------+
+
 id is the primary key column for this table.
 departmentId is a foreign key of the ID from the Department table.
 Each row of this table indicates the ID, name, and salary of an employee. It also contains the ID of their department.
 
 Table: Department
 
-+-------------+---------+
+|-------------|---------|
 | Column Name | Type    |
-+-------------+---------+
+|-------------|---------|
 | id          | int     |
 | name        | varchar |
-+-------------+---------+
+|-------------|---------|
 id is the primary key column for this table.
 Each row of this table indicates the ID of a department and its name.
 
@@ -46,13 +46,13 @@ Return the result table in any order.
 - Group by earnings and reorder in desc order
 - Retrieve the first result using LIMIT
 
-
->SELECT salary*months AS earnings, COUNT(*)\
-FROM Employee\
-GROUP BY earnings\
-ORDER BY earnings DESC\
+```
+SELECT salary*months AS earnings, COUNT(*)
+FROM Employee
+GROUP BY earnings
+ORDER BY earnings DESC
 LIMIT 1
-
+```
 - Note: This solution has drawbacks as it does not work for other rankings such as 2nd, 3rd highest earnings.
 
 ### Solution 2: CTE and Subquery 
@@ -60,21 +60,20 @@ LIMIT 1
 - CTE to create total_earnings columns
 - Query to extract maximum total_earnings and count the records 
 
-
-> WITH earnings(total_earnings) AS(
->> SELECT salary * months AS total_earnings\
+```
+WITH earnings(total_earnings) AS(
+    SELECT salary * months AS total_earnings
     FROM Employee
-)
+    )
 
-> SELECT total_earnings, COUNT(*)\
-FROM earnings\
+SELECT total_earnings, COUNT(*)
+FROM earnings
 WHERE total_earnings IN (
->>SELECT MAX(total_earnings)\
-FROM earnings\
-)
-
-> GROUP BY total_earnings
-
+    SELECT MAX(total_earnings)
+    FROM earnings
+    )
+GROUP BY total_earnings
+```
 - Note: This solution only works with Maximum earnings or Minimum earnings
 
 ### Solution 3: Window Function
@@ -83,21 +82,20 @@ FROM earnings\
 - 2nd CTE to rank earnings using RANK()
 - Retrieve total_earnings and count where the rank is 1.
 
->WITH earnings(total_earnings) AS(\
- >>   SELECT salary * months AS total_earnings\
-    FROM Employee\
-),
+```
+WITH earnings(total_earnings) AS(
+    SELECT salary * months AS total_earnings
+    FROM Employee
+    ),
+rank_earnings AS (
+    SELECT 
+        total_earnings,
+        RANK() OVER (ORDER BY total_earnings DESC) AS earnings_rank
+    FROM earnings)
 
-> rank_earnings AS (
->> SELECT 
->>> total_earnings,\
->>> RANK() OVER (ORDER BY total_earnings DESC) AS earnings_rank
-
->> FROM earnings)
-    
-> SELECT total_earnings, COUNT(*)\
-FROM rank_earnings\
-WHERE earnings_rank = 1\
+SELECT total_earnings, COUNT(*)
+FROM rank_earnings
+WHERE earnings_rank = 1
 GROUP BY total_earnings
-
+```
 - This solution works for all rankings
