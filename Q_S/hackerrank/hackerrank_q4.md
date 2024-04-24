@@ -26,18 +26,17 @@ CTEs act as virtual tables (with records and columns) that are created during qu
 - Step 2: Join two tables to get the name, id, total of maximum scores from the cte and hackers table.
 - Step 3: Add the condition of total of maximum scores higher than 0 using HAVING clause
 - Step 4: Sort the results
+```
+WITH max_score(hacker_id, challenge_id, max_score) AS ( 
+    SELECT hacker_id, challenge_id, MAX(score)AS max_score
+    FROM submissions
+    GROUP BY hacker_id, challenge_id
+    )
 
->WITH max_score(hacker_id, challenge_id, max_score) AS ( 
-
->>SELECT hacker_id, challenge_id, MAX(score)AS max_score\
-    FROM submissions\
-    GROUP BY hacker_id, challenge_id\
-)
-
->SELECT mc.hacker_id, h.name, SUM(mc.max_score) AS score\
-FROM max_score AS mc\
-INNER JOIN hackers AS h ON mc.hacker_id=h.hacker_id\
-GROUP BY mc.hacker_id, h.name\
-HAVING SUM(mc.max_score)>0\
+SELECT mc.hacker_id, h.name, SUM(mc.max_score) AS score
+FROM max_score AS mc
+INNER JOIN hackers AS h ON mc.hacker_id=h.hacker_id
+GROUP BY mc.hacker_id, h.name
+HAVING SUM(mc.max_score)>0
 ORDER BY score DESC, hacker_id
-
+```
