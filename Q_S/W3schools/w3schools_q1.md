@@ -16,13 +16,20 @@
 - Filter the orders shipped by Speed Express
 - Count the orders
 
->SELECT COUNT(*)\
-FROM Orders AS o\
-INNER JOIN Shippers AS sh ON o.shipperid=sh.shipperid\
+```
+SELECT COUNT(*)
+FROM Orders AS o
+INNER JOIN Shippers AS sh ON o.shipperid=sh.shipperid
 WHERE sh.shippername="Speedy Express";
-
+```
 ### Solution 2: Nested Query 
 
-> SELECT COUNT(*)\
-FROM Orders\
-WHERE shipperid=(SELECT shipperid FROM shippers WHERE shippername="Speedy Express");
+```
+SELECT COUNT(*)
+FROM Orders
+WHERE shipperid=(
+    SELECT shipperid 
+    FROM shippers 
+    WHERE shippername="Speedy Express"
+    );
+```
